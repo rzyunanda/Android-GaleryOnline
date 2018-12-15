@@ -6,16 +6,16 @@ import android.os.Parcelable;
 public class Galery implements Parcelable {
     public int id;
     public String title;
-    public String image_path;
-    public String overview;
+    public String gambar_url;
+    public String lokasi;
     public String lat;
     public String lng;
 
     public Galery(int id, String title, String image_path, String overview, String lat, String lng) {
         this.id = id;
         this.title = title;
-        this.image_path = image_path;
-        this.overview = overview;
+        this.gambar_url = image_path;
+        this.lokasi = lokasi;
         this.lat = lat;
         this.lng = lng;
     }
@@ -23,8 +23,8 @@ public class Galery implements Parcelable {
     protected Galery(Parcel in) {
         id = in.readInt();
         title = in.readString();
-        image_path = in.readString();
-        overview = in.readString();
+        gambar_url = in.readString();
+        lokasi = in.readString();
         lat = in.readString();
         lng = in.readString();
     }
@@ -50,8 +50,8 @@ public class Galery implements Parcelable {
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeInt(id);
         parcel.writeString(title);
-        parcel.writeString(image_path);
-        parcel.writeString(overview);
+        parcel.writeString(gambar_url);
+        parcel.writeString(lokasi);
         parcel.writeString(lat);
         parcel.writeString(lng);
     }
