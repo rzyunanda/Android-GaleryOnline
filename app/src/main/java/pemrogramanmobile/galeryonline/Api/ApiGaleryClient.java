@@ -5,7 +5,7 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
-public interface ApiGalery {
+public interface ApiGaleryClient {
     @GET("/api/galeries")
     Call<GaleryData> getGaleryData();
 
