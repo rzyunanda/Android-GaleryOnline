@@ -1,7 +1,9 @@
 package pemrogramanmobile.galeryonline.Adapter;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,60 +18,59 @@ import pemrogramanmobile.galeryonline.Model.Galery;
 import pemrogramanmobile.galeryonline.R;
 
 public class ListGaleryAdapter extends RecyclerView.Adapter<ListGaleryAdapter.GaleryHolder>{
-    ArrayList<Galery> dataGalery;
+
+    private Context context;
+    private ArrayList<Galery> listGalery;
     OnItemClick handler;
 
-
-
-    public void setDataGalery(ArrayList<Galery> dataGalery) {
-        this.dataGalery = dataGalery;
-        notifyDataSetChanged();
+    public ArrayList<Galery> getListGalery() {
+        return listGalery;
     }
 
-    public void setHandler(OnItemClick clickHandler){
-        handler = clickHandler;
+    public void setListGalery(ArrayList<Galery> listGalery) {
+        this.listGalery = listGalery;
     }
 
-    public interface OnItemClick{
-        void click(Galery g);
-    }
+
 
     @NonNull
     @Override
-    public GaleryHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.item_row_galery,viewGroup,false);
-        GaleryHolder holder = new GaleryHolder(v);
-        return holder;
-
+    public ListGaleryAdapter.GaleryHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        View itemRow = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_row_galery,viewGroup,false);
+        return new GaleryHolder (itemRow);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull GaleryHolder holder, int i) {
-        Galery galery = dataGalery.get(i);
+    public void onBindViewHolder(@NonNull ListGaleryAdapter.GaleryHolder holder, int i) {
+         Galery galery = listGalery.get(i);
 
-        holder.textTitle.setText(galery.title);
-        holder.lokasi.setText(String.valueOf(galery.lokasi));
+         holder.nama.setText(galery.nama);
+         holder.lokasi.setText(galery.lokasi);
 
+         String gambar_url = galery.gambar_url;
 
-        Glide.with(holder.itemView)
-                .load(galery.gambar_url)
-                .into(holder.imgPoster);
+         Glide.with(holder.itemView)
+              .load(gambar_url)
+              .into(holder.imgPhoto);
     }
 
     @Override
     public int getItemCount() {
+        if(listGalery != null) {
+            return listGalery.size();
+        }
         return 0;
     }
 
     public class GaleryHolder extends RecyclerView.ViewHolder {
-        ImageView imgPoster;
-        TextView textTitle,lokasi;
+        TextView nama;
+        TextView lokasi;
+        ImageView imgPhoto;
 
-        public GaleryHolder(View v) {
-            super(v);
-            imgPoster = itemView.findViewById(R.id.img_poster);
-            textTitle = itemView.findViewById(R.id.text_title);
+        public GaleryHolder(@NonNull View itemView) {
+            super(itemView);
+            imgPhoto = itemView.findViewById(R.id.img_poster);
+            nama = itemView.findViewById(R.id.tv_nama);
             lokasi = itemView.findViewById(R.id.tv_lokasi);
 
             itemView.setOnClickListener(new View.OnClickListener(){
@@ -77,10 +78,18 @@ public class ListGaleryAdapter extends RecyclerView.Adapter<ListGaleryAdapter.Ga
                 @Override
                 public void onClick(View view) {
                     int position = getAdapterPosition();
-                    Galery g = dataGalery.get(position);
-                    handler.click(g);
+                    Galery m = listGalery.get(position);
+                    handler.click(m);
                 }
             });
         }
+
     }
+    public interface OnItemClick{
+        void click(Galery m);
+    }
+    public void setHandler(OnItemClick clickHandler){
+        handler = clickHandler;
+    }
+
 }

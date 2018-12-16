@@ -4,29 +4,58 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Galery implements Parcelable {
+
+    public int getId(String aDatum) {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getNama(String aDatum) {
+        return nama;
+    }
+
+    public void setNama(String nama) {
+        this.nama = nama;
+    }
+
+    public String getGambar_url(String aDatum) {
+        return gambar_url;
+    }
+
+    public void setGambar_url(String gambar_url) {
+        this.gambar_url = gambar_url;
+    }
+
+    public String getLokasi() {
+        return lokasi;
+    }
+
+    public void setLokasi(String lokasi) {
+        this.lokasi = lokasi;
+    }
+
     public int id;
-    public String title;
+    public String nama;
     public String gambar_url;
     public String lokasi;
-    public String lat;
-    public String lng;
 
-    public Galery(int id, String title, String image_path, String overview, String lat, String lng) {
+    public Galery(int id, String nama, String gambar_url, String lokasi) {
         this.id = id;
-        this.title = title;
-        this.gambar_url = image_path;
+        this.nama = nama;
+        this.gambar_url = gambar_url;
         this.lokasi = lokasi;
-        this.lat = lat;
-        this.lng = lng;
     }
+
 
     protected Galery(Parcel in) {
         id = in.readInt();
-        title = in.readString();
-        gambar_url = in.readString();
+        nama = in.readString();
         lokasi = in.readString();
-        lat = in.readString();
-        lng = in.readString();
+        gambar_url = in.readString();
+
     }
 
     public static final Creator<Galery> CREATOR = new Creator<Galery>() {
@@ -49,10 +78,9 @@ public class Galery implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeInt(id);
-        parcel.writeString(title);
-        parcel.writeString(gambar_url);
+        parcel.writeString(nama);
         parcel.writeString(lokasi);
-        parcel.writeString(lat);
-        parcel.writeString(lng);
+        parcel.writeString(gambar_url);
+
     }
 }

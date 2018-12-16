@@ -10,7 +10,6 @@ import java.util.List;
 import pemrogramanmobile.galeryonline.Model.Galery;
 
 public class GaleryData {
-    @SerializedName("results")
-    @Expose
-    public List<Galery> results = null;
+   @SerializedName("data")
+    public List<Galery> data;
 }
