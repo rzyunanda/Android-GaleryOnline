@@ -1,5 +1,6 @@
 package pemrogramanmobile.galeryonline;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -32,19 +33,28 @@ public class MainActivity extends AppCompatActivity  implements ListGaleryAdapte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        pbGalery = findViewById(R.id.progress_movie);
+        pbGalery.setVisibility(View.VISIBLE);
+
         adapter = new ListGaleryAdapter();
         adapter.setHandler(this);
 
+
+
         rvGalery = findViewById(R.id.rv_galery);
-//        adapter.setListGalery(getListData());
-        ambilData();
+        rvGalery.setLayoutManager(new LinearLayoutManager(this));
+        rvGalery.setAdapter(adapter);
         rvGalery.setVisibility(View.VISIBLE);
+
+        ambilData();
+
 
     }
 
 
     private void ambilData() {
         rvGalery.setVisibility(View.INVISIBLE);
+        pbGalery.setVisibility(View.VISIBLE);
 
         GaleryApiClient client =  (new Retrofit.Builder()
                 .baseUrl("https://galeryapp.herokuapp.com/")
@@ -60,13 +70,18 @@ public class MainActivity extends AppCompatActivity  implements ListGaleryAdapte
                 GaleryData data = response.body();
                 List<Galery> galeri = data.data;
                 adapter.setListGalery(new ArrayList<Galery>(galeri));
+
                 rvGalery.setAdapter(adapter);
-                rvGalery.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+
+                pbGalery.setVisibility(View.INVISIBLE);
+                rvGalery.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onFailure(Call<GaleryData> call, Throwable t) {
-
+                Toast.makeText(MainActivity.this, "Gagal coy", Toast.LENGTH_SHORT).show();
+                pbGalery.setVisibility(View.INVISIBLE);
+                rvGalery.setVisibility(View.VISIBLE);
             }
         });
 
@@ -76,7 +91,10 @@ public class MainActivity extends AppCompatActivity  implements ListGaleryAdapte
 
     @Override
     public void click(Galery g) {
+        Intent detailActivityIntent = new Intent(this, DetailActivity.class);
 
+        detailActivityIntent.putExtra("movie_extra_key", g);
+        startActivity(detailActivityIntent);
     }
 
     @Override

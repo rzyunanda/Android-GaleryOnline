@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 
@@ -51,6 +52,7 @@ public class ListGaleryAdapter extends RecyclerView.Adapter<ListGaleryAdapter.Ga
 
          Glide.with(holder.itemView)
               .load(gambar_url)
+              .apply(new RequestOptions().override(500, 500))
               .into(holder.imgPhoto);
     }
 

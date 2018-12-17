@@ -7,37 +7,50 @@
 
     <ImageView
         android:id="@+id/img_poster"
-        android:layout_width="114dp"
-        android:layout_height="160dp"
-        android:layout_marginBottom="8dp"
+        android:layout_width="130dp"
+        android:layout_height="128dp"
+        android:layout_marginBottom="2dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:textAlignment="viewStart"
+        android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/movie_poster" />
 
     <TextView
         android:id="@+id/tv_nama"
-        android:layout_width="0dp"
+        android:layout_width="191dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="44dp"
-        android:text="@string/nama_gambar"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_marginBottom="76dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/img_poster"
-        app:layout_constraintTop_toTopOf="@+id/img_poster" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.363" />
 
     <TextView
         android:id="@+id/tv_lokasi"
-        android:layout_width="wrap_content"
-        android:layout_height="23dp"
+        android:layout_width="129dp"
+        android:layout_height="0dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:text="Lokasi"
-        app:layout_constraintStart_toEndOf="@+id/img_poster"
-        app:layout_constraintTop_toBottomOf="@+id/tv_nama" />
+        android:textSize="15sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView"
+        app:layout_constraintStart_toEndOf="@+id/textView" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="50dp"
+        android:layout_height="18dp"
+        android:layout_marginTop="2dp"
+        android:text="@string/lokasi"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tv_nama"
+        app:layout_constraintTop_toBottomOf="@+id/tv_nama"
+        app:layout_constraintVertical_bias="0.0"
+        tools:text="Lokasi :" />
 
 </android.support.constraint.ConstraintLayout>

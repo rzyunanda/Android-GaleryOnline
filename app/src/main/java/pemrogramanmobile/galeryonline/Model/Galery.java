@@ -3,6 +3,8 @@ package pemrogramanmobile.galeryonline.Model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Date;
+
 public class Galery implements Parcelable {
 
     public int getId(String aDatum) {
@@ -41,12 +43,16 @@ public class Galery implements Parcelable {
     public String nama;
     public String gambar_url;
     public String lokasi;
+    public String tanggal;
+    public String deskripsi;
 
-    public Galery(int id, String nama, String gambar_url, String lokasi) {
+    public Galery(int id, String nama, String gambar_url, String lokasi,String tanggal, String deskripsi) {
         this.id = id;
         this.nama = nama;
         this.gambar_url = gambar_url;
         this.lokasi = lokasi;
+        this.tanggal = tanggal;
+        this.deskripsi = deskripsi;
     }
 
 
@@ -55,6 +61,8 @@ public class Galery implements Parcelable {
         nama = in.readString();
         lokasi = in.readString();
         gambar_url = in.readString();
+        tanggal = in.readString();
+        deskripsi = in.readString();
 
     }
 
@@ -81,6 +89,7 @@ public class Galery implements Parcelable {
         parcel.writeString(nama);
         parcel.writeString(lokasi);
         parcel.writeString(gambar_url);
-
+        parcel.writeString(tanggal);
+        parcel.writeString(deskripsi);
     }
 }
