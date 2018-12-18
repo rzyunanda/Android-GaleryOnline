@@ -1,6 +1,7 @@
 package pemrogramanmobile.galeryonline;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,7 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
+import android.support.design.widget.BottomNavigationView;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +24,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends AppCompatActivity  implements ListGaleryAdapter.OnItemClick {
+public class MainActivity extends AppCompatActivity  implements ListGaleryAdapter.OnItemClick, BottomNavigationView.OnNavigationItemSelectedListener    {
     ProgressBar pbGalery;
     RecyclerView rvGalery;
     ListGaleryAdapter adapter;
@@ -47,6 +48,11 @@ public class MainActivity extends AppCompatActivity  implements ListGaleryAdapte
         rvGalery.setVisibility(View.VISIBLE);
 
         ambilData();
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.navigation);
+//        // beri listener pada saat item/menu bottomnavigation terpilih
+        bottomNavigationView.setOnNavigationItemSelectedListener(this);
+
 
 
 
@@ -113,4 +119,17 @@ public class MainActivity extends AppCompatActivity  implements ListGaleryAdapte
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        android.support.v4.app.Fragment fragment = null;
+        switch (menuItem.getItemId()){
+            case R.id.nav_add:
+                Intent intent = new Intent(this, CreateActivity.class);
+                startActivity(intent);
+                break;
+
+
+        }
+        return false;
+    }
 }

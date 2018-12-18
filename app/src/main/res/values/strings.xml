@@ -6,4 +6,5 @@
     <string name="share">Share</string>
     <string name="detail">Detail</string>
     <string name="refresh">refresh</string>
+    <string name="msg_cannot_allow_empty_field">Field tidak boleh kosong</string>
 </resources>

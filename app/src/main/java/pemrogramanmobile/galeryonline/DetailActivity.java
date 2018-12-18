@@ -30,6 +30,7 @@ public class DetailActivity extends AppCompatActivity {
         tv_deskripsi = findViewById(R.id.tv_deskripsi);
 
 
+
         Intent intent = getIntent();
         if(intent != null){
             Galery galery = intent.getParcelableExtra("movie_extra_key");
