@@ -34,8 +34,11 @@
                         <option name="values">
                           <map>
                             <entry key="color" value="080808" />
-                            <entry key="outputName" value="ic_add_box_black_24dp" />
+                            <entry key="height" value="32" />
+                            <entry key="outputName" value="ic_add_box_black_32dp" />
+                            <entry key="overrideSize" value="true" />
                             <entry key="sourceFile" value="C:\Users\rzyun" />
+                            <entry key="width" value="32" />
                           </map>
                         </option>
                       </PersistentState>
