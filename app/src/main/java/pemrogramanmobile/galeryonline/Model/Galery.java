@@ -16,9 +16,6 @@ public class Galery implements Parcelable {
     }
 
 
-
-
-
     public String getLokasi() {
         return lokasi;
     }

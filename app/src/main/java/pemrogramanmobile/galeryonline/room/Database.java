@@ -5,5 +5,5 @@ import android.arch.persistence.room.RoomDatabase;
 public abstract class Database extends RoomDatabase {
 
     public abstract galeryDao dataFotoDao();
-    public abstract FavoritDao pesertaFavoriteDao();
+    public abstract FavoritDao galeryFavoriteDao();
 }

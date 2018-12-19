@@ -1,6 +1,7 @@
 package pemrogramanmobile.galeryonline.Activity;
 
 import android.annotation.SuppressLint;
+import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
@@ -38,6 +39,10 @@ public class DetailActivity extends AppCompatActivity {
 
         database = new DatabaseHelper(this);
 
+        db = Room.databaseBuilder(this, Database.class, "isce.db")
+                .allowMainThreadQueries()
+                .build();
+
 
 
         img = findViewById(R.id.img_poster_detail);
@@ -58,21 +63,17 @@ public class DetailActivity extends AppCompatActivity {
             tv_deskripsi.setText(galery.deskripsi);
             String img_url = galery.gambar_url;
 
-            if(db.fav == 1){
-                favoritImg.setBackgroundResource(R.drawable.start_fill);
-            }else{
-                favoritImg.setBackgroundResource(R.drawable.star_default);
-            }
 
-            favoritImg.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    clickFav(v);
-                }
-            });
+
             Glide.with(this)
                     .load(img_url)
                     .into(img);
+
+            if(db.galeryFavoriteDao().getGaleryFavoritesbyName(galery.id) == null){
+                img_fav.setImageResource(R.drawable.ic_favorite_border_black_24dp);
+            }else{
+                img_fav.setImageResource(R.drawable.ic_favorite_black_24dp);
+            }
 
 
 

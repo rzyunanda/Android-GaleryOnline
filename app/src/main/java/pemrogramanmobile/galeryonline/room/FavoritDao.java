@@ -5,17 +5,19 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
+import java.util.List;
+
 @Dao
-public class FavoritDao {
+public interface FavoritDao {
     @Query("SELECT * FROM favorites WHERE id = :id")
-    Favorite getPesertaFavoritesbyName(int id);
+    Favorite getGaleryFavoritesbyName(int id);
 
     @Query("DELETE FROM favorites WHERE id = :id")
     void delete(int id);
 
     @Query("SELECT * FROM favorites")
-    List<Favorite> getPesertaFavorites();
+    List<Favorite> getGaleryFavorites();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertPesertaFavorites(Favorite favorite);
+    void insertGaleryFavorites(Favorite favorite);
 }
