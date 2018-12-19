@@ -1,7 +1,8 @@
-package pemrogramanmobile.galeryonline;
+package pemrogramanmobile.galeryonline.Activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,11 +13,18 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import pemrogramanmobile.galeryonline.Adapter.ListGaleryAdapter;
+import pemrogramanmobile.galeryonline.DatabaseHelper;
 import pemrogramanmobile.galeryonline.Model.Galery;
+import pemrogramanmobile.galeryonline.R;
 
 public class DetailActivity extends AppCompatActivity {
-    ImageView img;
-    TextView tv_tanggal, tv_nama, tv_lokasi, tv_deskripsi;
+    ImageView img,img_fav;
+    TextView  tv_nama, tv_lokasi, tv_deskripsi;
+    ListGaleryAdapter adapter;
+
+
+    DatabaseHelper database;
 
     @SuppressLint("WrongViewCast")
     @Override
@@ -24,7 +32,12 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
+        database = new DatabaseHelper(this);
+
+
+
         img = findViewById(R.id.img_poster_detail);
+        img_fav = findViewById(R.id.img_fav);
         tv_nama = findViewById(R.id.tv_judul_detail);
         tv_lokasi = findViewById(R.id.tv_lokasi_detail);
         tv_deskripsi = findViewById(R.id.tv_deskripsi);
@@ -33,11 +46,17 @@ public class DetailActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         if(intent != null){
+
+
             Galery galery = intent.getParcelableExtra("movie_extra_key");
             tv_nama.setText(galery.nama);
             tv_lokasi.setText(galery.lokasi);
             tv_deskripsi.setText(galery.deskripsi);
             String img_url = galery.gambar_url;
+
+            if (database.isFavorite(galery)){
+
+            }
 
             Glide.with(this)
                     .load(img_url)

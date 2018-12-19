@@ -1,4 +1,4 @@
-package pemrogramanmobile.galeryonline;
+package pemrogramanmobile.galeryonline.Activity;
 
 import android.Manifest;
 import android.content.Context;
@@ -28,6 +28,7 @@ import java.io.ByteArrayOutputStream;
 
 import okhttp3.ResponseBody;
 import pemrogramanmobile.galeryonline.Api.GaleryApiClient;
+import pemrogramanmobile.galeryonline.R;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -132,7 +133,7 @@ public class CreateActivity extends AppCompatActivity {
             }
         });
 
-        //validasi
+
         btn_tambah.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -159,6 +160,7 @@ public class CreateActivity extends AppCompatActivity {
                             .addConverterFactory(GsonConverterFactory.create())
                             .build())
                             .create(GaleryApiClient.class);
+
                     Call<ResponseBody> call = client.newFoto(nama,lokasi, deskripsi,lat, lng,gambar);
                     Log.e("gambar", gambar);
 
@@ -218,15 +220,15 @@ public class CreateActivity extends AppCompatActivity {
                 edt_lat.setText("Latitude" + latitude +", longitute"+ longtitude);
             }
             else{
-                Toast.makeText(CreateActivity.this,"TIDAK TAMPIL LOKASINYA YA", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CreateActivity.this,"lokasi gagal", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
     private String getBase64String(ImageView imageView) {
 
-        BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
-        Bitmap bitmap = drawable.getBitmap();
+        BitmapDrawable d = (BitmapDrawable) imageView.getDrawable();
+        Bitmap bitmap = d.getBitmap();
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);

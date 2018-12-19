@@ -1,6 +1,9 @@
-package pemrogramanmobile.galeryonline;
+package pemrogramanmobile.galeryonline.Activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.v7.app.AppCompatActivity;
@@ -21,7 +24,10 @@ import java.util.List;
 
 import pemrogramanmobile.galeryonline.Adapter.ListGaleryAdapter;
 import pemrogramanmobile.galeryonline.Api.GaleryApiClient;
+import pemrogramanmobile.galeryonline.DatabaseHelper;
+import pemrogramanmobile.galeryonline.GaleryData;
 import pemrogramanmobile.galeryonline.Model.Galery;
+import pemrogramanmobile.galeryonline.R;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -33,6 +39,8 @@ public class MainActivity extends AppCompatActivity  implements ListGaleryAdapte
     RecyclerView rvGalery;
     ListGaleryAdapter adapter;
 
+    DatabaseHelper myDb;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +51,8 @@ public class MainActivity extends AppCompatActivity  implements ListGaleryAdapte
 
         adapter = new ListGaleryAdapter();
         adapter.setHandler(this);
+
+        myDb = new DatabaseHelper(this);
 
 
 
@@ -145,5 +155,18 @@ public class MainActivity extends AppCompatActivity  implements ListGaleryAdapte
 
         }
         return false;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
+    public Boolean isConnected(){
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+
+        return isConnected;
     }
 }

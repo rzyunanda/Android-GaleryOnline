@@ -15,7 +15,7 @@ public interface GaleryApiClient {
     Call<GaleryData> getGaleryData();
 
     @FormUrlEncoded
-    @POST("api/daftar")
+    @POST("api/galery")
     Call<ResponseBody> newFoto(
             @Field("nama") String nama,
             @Field("deskripsi") String deskripsi,

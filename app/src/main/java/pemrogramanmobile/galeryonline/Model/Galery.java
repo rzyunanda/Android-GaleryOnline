@@ -15,21 +15,9 @@ public class Galery implements Parcelable {
         this.id = id;
     }
 
-    public String getNama(String aDatum) {
-        return nama;
-    }
 
-    public void setNama(String nama) {
-        this.nama = nama;
-    }
 
-    public String getGambar_url(String aDatum) {
-        return gambar_url;
-    }
 
-    public void setGambar_url(String gambar_url) {
-        this.gambar_url = gambar_url;
-    }
 
     public String getLokasi() {
         return lokasi;
@@ -40,18 +28,61 @@ public class Galery implements Parcelable {
     }
 
     public int id;
+
+    public String getNama() {
+        return nama;
+    }
+
+    public void setNama(String nama) {
+        this.nama = nama;
+    }
+
     public String nama;
+
+    public String getGambar_url() {
+        return gambar_url;
+    }
+
+    public void setGambar_url(String gambar_url) {
+        this.gambar_url = gambar_url;
+    }
+
     public String gambar_url;
     public String lokasi;
     public String tanggal;
     public String deskripsi;
+    public String lat;
+    public String lng;
 
-    public Galery(int id, String nama, String gambar_url, String lokasi,String tanggal, String deskripsi) {
+    public String getDeskripsi() {
+        return deskripsi;
+    }
+
+    public void setDeskripsi(String deskripsi) {
+        this.deskripsi = deskripsi;
+    }
+
+    public String getLat() {
+        return lat;
+    }
+
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
+
+    public String getLng() {
+        return lng;
+    }
+
+    public void setLng(String lng) {
+        this.lng = lng;
+    }
+
+    public Galery(int id, String s, String nama, String gambar_url, String lokasi, String deskripsi, String cursorString, String string) {
         this.id = id;
         this.nama = nama;
         this.gambar_url = gambar_url;
         this.lokasi = lokasi;
-        this.tanggal = tanggal;
         this.deskripsi = deskripsi;
     }
 
