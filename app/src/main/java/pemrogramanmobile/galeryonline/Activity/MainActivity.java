@@ -120,7 +120,6 @@ public class MainActivity extends AppCompatActivity  implements ListGaleryAdapte
     @Override
     public void click(Galery g) {
         Intent detailActivityIntent = new Intent(this, DetailActivity.class);
-
         detailActivityIntent.putExtra("movie_extra_key", g);
         startActivity(detailActivityIntent);
     }

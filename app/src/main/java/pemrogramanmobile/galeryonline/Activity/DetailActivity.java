@@ -39,7 +39,6 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        database = new DatabaseHelper(this);
 
         db = Room.databaseBuilder(this, Database.class, "isce.db")
                 .allowMainThreadQueries()
