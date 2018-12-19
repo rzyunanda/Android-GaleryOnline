@@ -19,10 +19,12 @@ import pemrogramanmobile.galeryonline.DatabaseHelper;
 import pemrogramanmobile.galeryonline.Model.Galery;
 import pemrogramanmobile.galeryonline.R;
 import pemrogramanmobile.galeryonline.room.Database;
+import pemrogramanmobile.galeryonline.room.Favorite;
 
 import static pemrogramanmobile.galeryonline.DatabaseHelper.fav;
 
 public class DetailActivity extends AppCompatActivity {
+    Galery galery;
     ImageView img,img_fav;
     TextView  tv_nama, tv_lokasi, tv_deskripsi;
     ListGaleryAdapter adapter;
@@ -57,13 +59,11 @@ public class DetailActivity extends AppCompatActivity {
         if(intent != null){
 
 
-            Galery galery = intent.getParcelableExtra("movie_extra_key");
+           galery = intent.getParcelableExtra("movie_extra_key");
             tv_nama.setText(galery.nama);
             tv_lokasi.setText(galery.lokasi);
             tv_deskripsi.setText(galery.deskripsi);
             String img_url = galery.gambar_url;
-
-
 
             Glide.with(this)
                     .load(img_url)
@@ -74,9 +74,6 @@ public class DetailActivity extends AppCompatActivity {
             }else{
                 img_fav.setImageResource(R.drawable.ic_favorite_black_24dp);
             }
-
-
-
         }
 
     }
@@ -99,6 +96,30 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void changeFav(View v){
+        if(img_fav.getDrawable().getConstantState() == getResources().getDrawable(R.drawable.ic_favorite_border_black_24dp).getConstantState()){
+            img_fav.setImageResource(R.drawable.ic_favorite_black_24dp);
+            saveGaleryFavoriteData(this.galery);
+        }else{
+            img_fav.setImageResource(R.drawable.ic_favorite_border_black_24dp);
+            db.galeryFavoriteDao().delete(this.galery.id);
+        }
+    }
+
+    public void saveGaleryFavoriteData(Galery galery){
+        Galery pm = galery;
+        Favorite favorite = new Favorite();
+        favorite.id = pm.getId();
+        favorite.nama = pm.getNama();
+        favorite.lokasi = pm.getLokasi();
+        favorite.deskripsi = pm.getDeskripsi();
+        favorite.gambar = pm.getGambar_url();
+        favorite.lat = pm.getLat();
+        favorite.lng = pm.getLng();
+
+        db.galeryFavoriteDao().insertGaleryFavorites(favorite);
     }
 
 }

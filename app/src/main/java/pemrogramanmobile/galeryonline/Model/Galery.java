@@ -7,14 +7,6 @@ import java.util.Date;
 
 public class Galery implements Parcelable {
 
-    public int getId(String aDatum) {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
 
     public String getLokasi() {
         return lokasi;
@@ -22,6 +14,14 @@ public class Galery implements Parcelable {
 
     public void setLokasi(String lokasi) {
         this.lokasi = lokasi;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int id;
