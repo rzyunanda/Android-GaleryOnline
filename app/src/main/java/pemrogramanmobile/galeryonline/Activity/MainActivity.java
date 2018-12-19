@@ -52,9 +52,6 @@ public class MainActivity extends AppCompatActivity  implements ListGaleryAdapte
         adapter = new ListGaleryAdapter();
         adapter.setHandler(this);
 
-        myDb = new DatabaseHelper(this);
-
-
 
         rvGalery = findViewById(R.id.rv_galery);
         rvGalery.setLayoutManager(new LinearLayoutManager(this));
