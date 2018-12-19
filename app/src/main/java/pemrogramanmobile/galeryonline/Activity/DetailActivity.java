@@ -17,11 +17,15 @@ import pemrogramanmobile.galeryonline.Adapter.ListGaleryAdapter;
 import pemrogramanmobile.galeryonline.DatabaseHelper;
 import pemrogramanmobile.galeryonline.Model.Galery;
 import pemrogramanmobile.galeryonline.R;
+import pemrogramanmobile.galeryonline.room.Database;
+
+import static pemrogramanmobile.galeryonline.DatabaseHelper.fav;
 
 public class DetailActivity extends AppCompatActivity {
     ImageView img,img_fav;
     TextView  tv_nama, tv_lokasi, tv_deskripsi;
     ListGaleryAdapter adapter;
+    Database db;
 
 
     DatabaseHelper database;
@@ -54,10 +58,18 @@ public class DetailActivity extends AppCompatActivity {
             tv_deskripsi.setText(galery.deskripsi);
             String img_url = galery.gambar_url;
 
-            if (database.isFavorite(galery)){
-
+            if(db.fav == 1){
+                favoritImg.setBackgroundResource(R.drawable.start_fill);
+            }else{
+                favoritImg.setBackgroundResource(R.drawable.star_default);
             }
 
+            favoritImg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    clickFav(v);
+                }
+            });
             Glide.with(this)
                     .load(img_url)
                     .into(img);
