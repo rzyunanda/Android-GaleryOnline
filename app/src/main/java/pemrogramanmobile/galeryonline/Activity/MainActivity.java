@@ -102,7 +102,6 @@ public class MainActivity extends AppCompatActivity  implements ListGaleryAdapte
                     List<Galery> galeri = data.data;
                     ArrayList<Galery> listgalery = new ArrayList<Galery>(galeri);
                     adapter.setListGalery(listgalery);
-
                     rvGalery.setAdapter(adapter);
 
                     saveGaleryData(listgalery);
@@ -138,7 +137,9 @@ public class MainActivity extends AppCompatActivity  implements ListGaleryAdapte
 
             adapter.setListGalery(new ArrayList<Galery>(galeriModels));
             rvGalery.setAdapter(adapter);
-            rvGalery.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+
+            pbGalery.setVisibility(View.INVISIBLE);
+            rvGalery.setVisibility(View.VISIBLE);
 
         }
 
@@ -210,5 +211,13 @@ public class MainActivity extends AppCompatActivity  implements ListGaleryAdapte
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
         return isConnected;
+    }
+
+    public void send(View v){
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, "terkirim bro");
+        sendIntent.setType("text/plain");
+        startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.sent_to)));
     }
 }
