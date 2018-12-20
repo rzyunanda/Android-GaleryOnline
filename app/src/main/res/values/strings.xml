@@ -5,6 +5,7 @@
     <string name="lokasi">Lokasi :</string>
     <string name="share">Share</string>
     <string name="detail">Detail</string>
+    <string name="sent_to">Send</string>
     <string name="refresh">refresh</string>
     <string name="msg_cannot_allow_empty_field">Field tidak boleh kosong</string>
     <string name="add">Add</string>

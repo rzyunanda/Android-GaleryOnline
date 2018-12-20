@@ -1,5 +1,6 @@
 package pemrogramanmobile.galeryonline.Activity;
 
+import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -24,10 +25,11 @@ import java.util.List;
 
 import pemrogramanmobile.galeryonline.Adapter.ListGaleryAdapter;
 import pemrogramanmobile.galeryonline.Api.GaleryApiClient;
-import pemrogramanmobile.galeryonline.DatabaseHelper;
 import pemrogramanmobile.galeryonline.GaleryData;
 import pemrogramanmobile.galeryonline.Model.Galery;
 import pemrogramanmobile.galeryonline.R;
+import pemrogramanmobile.galeryonline.room.Database;
+import pemrogramanmobile.galeryonline.room.RomGalery;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -38,8 +40,7 @@ public class MainActivity extends AppCompatActivity  implements ListGaleryAdapte
     ProgressBar pbGalery;
     RecyclerView rvGalery;
     ListGaleryAdapter adapter;
-
-    DatabaseHelper myDb;
+    Database db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +53,10 @@ public class MainActivity extends AppCompatActivity  implements ListGaleryAdapte
         adapter = new ListGaleryAdapter();
         adapter.setHandler(this);
 
+        db = Room.databaseBuilder(this, Database.class, "galery.db")
+                .allowMainThreadQueries()
+                .build();
+
 
         rvGalery = findViewById(R.id.rv_galery);
         rvGalery.setLayoutManager(new LinearLayoutManager(this));
@@ -62,7 +67,6 @@ public class MainActivity extends AppCompatActivity  implements ListGaleryAdapte
 
         BottomNavigationView bottomNavigation = findViewById(R.id.navigation);
         bottomNavigation.setOnNavigationItemSelectedListener(this);
-
         BottomNavigationMenuView menuView = (BottomNavigationMenuView) bottomNavigation.getChildAt(0);
 
         for (int i = 0; i < menuView.getChildCount(); i++) {
@@ -74,46 +78,86 @@ public class MainActivity extends AppCompatActivity  implements ListGaleryAdapte
             iconView.setLayoutParams(layoutParams);
         }
 
-
-
-
     }
 
 
     private void ambilData() {
+
         rvGalery.setVisibility(View.INVISIBLE);
         pbGalery.setVisibility(View.VISIBLE);
 
-        GaleryApiClient client =  (new Retrofit.Builder()
-                .baseUrl("https://galeryapp.herokuapp.com/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build())
-                .create(GaleryApiClient.class);
+        if(isConnected()) {
+            GaleryApiClient client = (new Retrofit.Builder()
+                    .baseUrl("https://galeryapp.herokuapp.com/")
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build())
+                    .create(GaleryApiClient.class);
 
-        Call<GaleryData> call = client.getGaleryData();
+            Call<GaleryData> call = client.getGaleryData();
 
-        call.enqueue(new Callback<GaleryData>() {
-            @Override
-            public void onResponse(Call<GaleryData> call, Response<GaleryData> response) {
-                GaleryData data = response.body();
-                List<Galery> galeri = data.data;
-                adapter.setListGalery(new ArrayList<Galery>(galeri));
+            call.enqueue(new Callback<GaleryData>() {
+                @Override
+                public void onResponse(Call<GaleryData> call, Response<GaleryData> response) {
+                    GaleryData data = response.body();
+                    List<Galery> galeri = data.data;
+                    ArrayList<Galery> listgalery = new ArrayList<Galery>(galeri);
+                    adapter.setListGalery(listgalery);
 
-                rvGalery.setAdapter(adapter);
+                    rvGalery.setAdapter(adapter);
 
-                pbGalery.setVisibility(View.INVISIBLE);
-                rvGalery.setVisibility(View.VISIBLE);
+                    saveGaleryData(listgalery);
+
+                    pbGalery.setVisibility(View.INVISIBLE);
+                    rvGalery.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onFailure(Call<GaleryData> call, Throwable t) {
+                    Toast.makeText(MainActivity.this, "Gagal coy", Toast.LENGTH_SHORT).show();
+                    pbGalery.setVisibility(View.INVISIBLE);
+                    rvGalery.setVisibility(View.VISIBLE);
+                }
+            });
+        }else {
+            Toast.makeText(MainActivity.this,"tidak konek",Toast.LENGTH_LONG).show();
+            List<RomGalery> galeryRom = db.getGaleryDao().getGalery();
+            List<Galery> galeriModels = new ArrayList<>();
+
+            for (RomGalery rg: galeryRom ){
+                Galery galeryModel = new Galery(
+                    rg.id,
+                    rg.nama,
+                    rg.lokasi,
+                    rg.gambar_url,
+                    rg.deskripsi,
+                    rg.lat,
+                    rg.lng
+                );
+                galeriModels.add(galeryModel);
             }
 
-            @Override
-            public void onFailure(Call<GaleryData> call, Throwable t) {
-                Toast.makeText(MainActivity.this, "Gagal coy", Toast.LENGTH_SHORT).show();
-                pbGalery.setVisibility(View.INVISIBLE);
-                rvGalery.setVisibility(View.VISIBLE);
-            }
-        });
+            adapter.setListGalery(new ArrayList<Galery>(galeriModels));
+            rvGalery.setAdapter(adapter);
+            rvGalery.setLayoutManager(new LinearLayoutManager(MainActivity.this));
 
+        }
 
+    }
+
+    private void saveGaleryData(ArrayList<Galery> galeri) {
+        for (Galery pm : galeri){
+            RomGalery ga = new RomGalery() ;
+            ga.id = pm.getId();
+            ga.nama = pm.getNama();
+            ga.lokasi = pm.getLokasi();
+            ga.gambar_url = pm.getGambar_url();
+            ga.deskripsi = pm.getDeskripsi();
+            ga.lat = pm.getLat();
+            ga.lng = pm.getLng();
+
+            db.getGaleryDao().insertgalery(ga);
+
+        }
     }
 
 
@@ -135,7 +179,6 @@ public class MainActivity extends AppCompatActivity  implements ListGaleryAdapte
         if(item.getItemId() == R.id.menu_refresh){
             ambilData();
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -146,6 +189,10 @@ public class MainActivity extends AppCompatActivity  implements ListGaleryAdapte
             case R.id.nav_add:
                 Intent intent = new Intent(this, CreateActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.favorite:
+                Intent in = new Intent(this, FavoritActivity.class);
+                startActivity(in);
                 break;
 
 
@@ -162,7 +209,6 @@ public class MainActivity extends AppCompatActivity  implements ListGaleryAdapte
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
-
         return isConnected;
     }
 }

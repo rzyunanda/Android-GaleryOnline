@@ -21,8 +21,6 @@ import pemrogramanmobile.galeryonline.R;
 public class ListGaleryAdapter extends RecyclerView.Adapter<ListGaleryAdapter.GaleryHolder>{
 
     private Context context;
-    public ImageView img_fav;
-    private RecyclerViewItemClick mListener;
     private ArrayList<Galery> listGalery;
     OnItemClick handler;
 
@@ -44,34 +42,18 @@ public class ListGaleryAdapter extends RecyclerView.Adapter<ListGaleryAdapter.Ga
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ListGaleryAdapter.GaleryHolder holder, int i) {
-         Galery galery = listGalery.get(i);
+    public void onBindViewHolder(@NonNull ListGaleryAdapter.GaleryHolder holder, int i) {
+        Galery galery = listGalery.get(i);
+        holder.nama.setText(galery.nama);
+        holder.lokasi.setText(galery.lokasi);
 
-         holder.nama.setText(galery.nama);
-         holder.lokasi.setText(galery.lokasi);
-         String gambar_url = galery.gambar_url;
+        String gambar_url = galery.gambar_url;
 
-         Glide.with(holder.itemView)
-              .load(gambar_url)
-              .apply(new RequestOptions().override(500, 500))
-              .into(holder.imgPhoto);
-
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-
-            }
-
-        });
+        Glide.with(holder.itemView)
+                .load(gambar_url)
+                .apply(new RequestOptions().override(500, 500))
+                .into(holder.imgPhoto);
     }
-    public interface RecyclerViewItemClick {
-
-        public void OnItemClickListener(GaleryHolder holder, int position);
-
-    }
-
 
     @Override
     public int getItemCount() {
@@ -92,9 +74,6 @@ public class ListGaleryAdapter extends RecyclerView.Adapter<ListGaleryAdapter.Ga
             nama = itemView.findViewById(R.id.tv_nama);
             lokasi = itemView.findViewById(R.id.tv_lokasi);
 
-
-
-
             itemView.setOnClickListener(new View.OnClickListener(){
 
                 @Override
@@ -113,5 +92,4 @@ public class ListGaleryAdapter extends RecyclerView.Adapter<ListGaleryAdapter.Ga
     public void setHandler(OnItemClick clickHandler){
         handler = clickHandler;
     }
-
 }

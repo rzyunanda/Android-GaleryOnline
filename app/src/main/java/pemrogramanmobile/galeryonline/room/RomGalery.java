@@ -4,9 +4,8 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
-@Entity(tableName = "galeries")
-
-public class galery {
+@Entity(tableName = "galeri")
+public class RomGalery {
 
     @PrimaryKey
     public Integer id;
@@ -28,5 +27,6 @@ public class galery {
 
     @ColumnInfo(name = "lng")
     public String lng;
+
 
 }

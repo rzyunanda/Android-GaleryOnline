@@ -7,6 +7,14 @@ import java.util.Date;
 
 public class Galery implements Parcelable {
 
+    public int id;
+    public String nama;
+    public String gambar_url;
+    public String lokasi;
+    public String deskripsi;
+    public String lat;
+    public String lng;
+
 
     public String getLokasi() {
         return lokasi;
@@ -24,8 +32,6 @@ public class Galery implements Parcelable {
         this.id = id;
     }
 
-    public int id;
-
     public String getNama() {
         return nama;
     }
@@ -34,8 +40,6 @@ public class Galery implements Parcelable {
         this.nama = nama;
     }
 
-    public String nama;
-
     public String getGambar_url() {
         return gambar_url;
     }
@@ -43,13 +47,6 @@ public class Galery implements Parcelable {
     public void setGambar_url(String gambar_url) {
         this.gambar_url = gambar_url;
     }
-
-    public String gambar_url;
-    public String lokasi;
-    public String tanggal;
-    public String deskripsi;
-    public String lat;
-    public String lng;
 
     public String getDeskripsi() {
         return deskripsi;
@@ -75,12 +72,15 @@ public class Galery implements Parcelable {
         this.lng = lng;
     }
 
-    public Galery(int id, String s, String nama, String gambar_url, String lokasi, String deskripsi, String cursorString, String string) {
+
+    public Galery(int id,String nama, String gambar_url, String lokasi, String deskripsi,String lat,String lng) {
         this.id = id;
         this.nama = nama;
-        this.gambar_url = gambar_url;
         this.lokasi = lokasi;
+        this.gambar_url = gambar_url;
         this.deskripsi = deskripsi;
+        this.lat = lat;
+        this.lng = lng;
     }
 
 
@@ -89,8 +89,10 @@ public class Galery implements Parcelable {
         nama = in.readString();
         lokasi = in.readString();
         gambar_url = in.readString();
-        tanggal = in.readString();
         deskripsi = in.readString();
+        lat = in.readString();
+        lng = in.readString();
+
 
     }
 
@@ -117,7 +119,6 @@ public class Galery implements Parcelable {
         parcel.writeString(nama);
         parcel.writeString(lokasi);
         parcel.writeString(gambar_url);
-        parcel.writeString(tanggal);
         parcel.writeString(deskripsi);
     }
 }

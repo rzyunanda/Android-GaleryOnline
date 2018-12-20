@@ -3,7 +3,6 @@ package pemrogramanmobile.galeryonline.Activity;
 import android.annotation.SuppressLint;
 import android.arch.persistence.room.Room;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,24 +13,20 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-import pemrogramanmobile.galeryonline.Adapter.ListGaleryAdapter;
-import pemrogramanmobile.galeryonline.DatabaseHelper;
 import pemrogramanmobile.galeryonline.Model.Galery;
 import pemrogramanmobile.galeryonline.R;
 import pemrogramanmobile.galeryonline.room.Database;
 import pemrogramanmobile.galeryonline.room.Favorite;
 
-import static pemrogramanmobile.galeryonline.DatabaseHelper.fav;
 
-public class DetailActivity extends AppCompatActivity {
+
+public class DetailActivity extends AppCompatActivity{
     Galery galery;
     ImageView img,img_fav;
     TextView  tv_nama, tv_lokasi, tv_deskripsi;
-    ListGaleryAdapter adapter;
     Database db;
 
 
-    DatabaseHelper database;
 
     @SuppressLint("WrongViewCast")
     @Override
@@ -39,12 +34,9 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-
-        db = Room.databaseBuilder(this, Database.class, "isce.db")
+        db = Room.databaseBuilder(this, Database.class, "galery.db")
                 .allowMainThreadQueries()
                 .build();
-
-
 
         img = findViewById(R.id.img_poster_detail);
         img_fav = findViewById(R.id.img_fav);
@@ -52,12 +44,8 @@ public class DetailActivity extends AppCompatActivity {
         tv_lokasi = findViewById(R.id.tv_lokasi_detail);
         tv_deskripsi = findViewById(R.id.tv_deskripsi);
 
-
-
         Intent intent = getIntent();
         if(intent != null){
-
-
            galery = intent.getParcelableExtra("movie_extra_key");
             tv_nama.setText(galery.nama);
             tv_lokasi.setText(galery.lokasi);
@@ -68,21 +56,22 @@ public class DetailActivity extends AppCompatActivity {
                     .load(img_url)
                     .into(img);
 
-            if(db.galeryFavoriteDao().getGaleryFavoritesbyName(galery.id) == null){
-                img_fav.setImageResource(R.drawable.ic_favorite_border_black_24dp);
-            }else{
-                img_fav.setImageResource(R.drawable.ic_favorite_black_24dp);
-            }
         }
+
+        if(db.galeryFavoriteDao().getGaleryFavoritesbyName(this.galery.getId()) == null){
+            img_fav.setImageResource(R.drawable.ic_favorite_border_black_24dp);
+        }else{
+            img_fav.setImageResource(R.drawable.ic_favorite_black_24dp);
+        }
+
 
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-
-
         getMenuInflater().inflate(R.menu.main_menu, menu);
+        menu.findItem(R.id.menu_refresh).setVisible(false);
         menu.findItem(R.id.menu_share).setVisible(true);
         return super.onCreateOptionsMenu(menu);
 
@@ -90,10 +79,14 @@ public class DetailActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.menu_refresh){
 
+        if(item.getItemId()==R.id.menu_share){
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, "terkirim bro");
+            sendIntent.setType("text/plain");
+            startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.sent_to)));
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -120,5 +113,6 @@ public class DetailActivity extends AppCompatActivity {
 
         db.galeryFavoriteDao().insertGaleryFavorites(favorite);
     }
+
 
 }

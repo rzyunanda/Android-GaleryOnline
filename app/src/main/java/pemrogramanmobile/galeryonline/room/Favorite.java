@@ -7,7 +7,7 @@ import android.arch.persistence.room.PrimaryKey;
 @Entity(tableName = "favorites")
 public class Favorite {
     @PrimaryKey
-    public Integer id;
+    public int id;
 
     @ColumnInfo(name = "nama")
     public String nama;
